@@ -1,5 +1,4 @@
-import os
-import asyncio
+import os, asyncio
 from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
@@ -7,11 +6,10 @@ from utils.evm import get_evm_balance
 from utils.solana import get_solana_balance
 
 load_dotenv()
-
-BOT_TOKEN = os.getenv("7699374290:AAEnNCRbM9yjU4qTSiI8ZZzI1GeeKMMthsM")
-USER_ID = int(os.getenv("@arie_irr"))
-EVM_WALLETS = os.getenv("0xd424c944c09d3b7b6fd3365756e2ad763b3cf078", "").split(",")
-SOL_WALLETS = os.getenv("GJQoG4MxVWd24PL7qvfVG5E9fmRgY9L1k2g2KjiFuCT7", "").split(",")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+USER_ID = int(os.getenv("TELEGRAM_USER_ID"))
+EVM_WALLETS = os.getenv("EVM_WALLETS", "").split(",")
+SOL_WALLETS = os.getenv("SOL_WALLETS", "").split(",")
 
 async def saldo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != USER_ID:
@@ -28,7 +26,7 @@ async def saldo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(msg)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👋 Halo! Kirim /saldo untuk cek wallet kamu.")
+    await update.message.reply_text("👋 Halo! Kirim /saldo untuk cek saldo wallet kamu.")
 
 if __name__ == "__main__":
     app = ApplicationBuilder().token(BOT_TOKEN).build()
